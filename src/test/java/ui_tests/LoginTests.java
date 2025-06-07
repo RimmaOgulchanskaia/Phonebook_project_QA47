@@ -24,8 +24,18 @@ public class LoginTests extends ApplicationManager {
     }
 
     @Test
-    public void loginNegativeTest(){
+    public void loginNegativeTestWrongPassword(){
         User user = new User("Rimmaqa47_mail@mail.com", "Qwerty1235!");
+        HomePage homePage = new HomePage(getDriver());
+        homePage.clickBtnLoginHeader();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.typeLoginForm(user);
+        loginPage.closeAlert();
+        Assert.assertTrue(loginPage.isErrorMessagePresent("Login Failed with code 401"));
+    }
+    @Test
+    public void loginNegativeTestWrongEmail(){
+        User user = new User("Rimmaqa_mail@mail.com", "Qwerty1235!");
         HomePage homePage = new HomePage(getDriver());
         homePage.clickBtnLoginHeader();
         LoginPage loginPage = new LoginPage(getDriver());
@@ -35,8 +45,6 @@ public class LoginTests extends ApplicationManager {
 
 
 
-
     }
-
 
 }
