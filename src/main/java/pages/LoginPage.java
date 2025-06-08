@@ -12,38 +12,69 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class LoginPage extends BasePage {
+public class LoginPage extends BasePage{
 
-    public LoginPage(WebDriver driver) {
+    public LoginPage(WebDriver driver){
         setDriver(driver);
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, 10), this);
     }
 
-    @FindBy(xpath = "//input[@placeholder='Email']")
+    @FindBy(css = "input[name='email']")
     WebElement inputEmail;
 
-    @FindBy(xpath = "//*[@name='password']")
+    @FindBy(css = "input[name='password']")
     WebElement inputPassword;
 
-    @FindBy(xpath = "//*[@name='login']")
-    WebElement btnLogin;
+    @FindBy(css = "button[name='login']")
+    WebElement btnLoginForm;
 
-    @FindBy(xpath = "//div[@class='login_login__3EHKB']/div")WebElement errorMessageLogin;
+    @FindBy(css = "button[name='registration']")
+    WebElement btnRegForm;
 
-    public void typeLoginForm(User user) {
-        inputEmail.sendKeys(user.getUsername());
-        inputPassword.sendKeys(user.getPassword());
-        btnLogin.click();
+    @FindBy(xpath = "//div[@class='login_login__3EHKB']/div")
+    WebElement errorMessageLogin;
+
+    @FindBy(className = "contact-page_message__2qafk")
+    WebElement messageNoContacts;
+
+    @FindBy(xpath = "//button[text()='Sign Out']")
+    WebElement btnSignOutHeader;
+
+    public void logOut(){
+        btnSignOutHeader.click();
     }
 
-    public void closeAlert() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+    public void typeLoginForm(User user){
+        inputEmail.sendKeys(user.getUsername());
+        inputPassword.sendKeys(user.getPassword());
+        btnLoginForm.click();
+    }
+
+    public void closeAlert(){
+        Alert alert = new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.alertIsPresent());
+        System.out.println(alert.getText());
         alert.accept();
+    }
+    public String closeAlertReturnText(){
+        Alert alert = new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.alertIsPresent());
+        String text = alert.getText();
+        alert.accept();
+        return text;
     }
 
     public boolean isErrorMessagePresent(String message){
-        return  isTextElementPresent(errorMessageLogin, message);
+        return isTextInElementPresent(errorMessageLogin, message);
+    }
 
+    public boolean isNoContactMessagePresent(String message){
+        return isTextInElementPresent(messageNoContacts, message);
+    }
+
+    public void typeRegistrationForm(User user) {
+        inputEmail.sendKeys(user.getUsername());
+        inputPassword.sendKeys(user.getPassword());
+        btnRegForm.click();
     }
 }
