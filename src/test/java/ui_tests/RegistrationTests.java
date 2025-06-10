@@ -2,6 +2,7 @@
 package ui_tests;
 
 import dto.User;
+import dto.UserLombok;
 import manager.ApplicationManager;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -25,17 +26,17 @@ import static utils.RandomUtils.*;
         @Test
         public void registrationPositiveTest(){
             User user = new User(generateEmail(10), "Password123!");
-            loginPage.typeRegistrationForm(user);
+            loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
             Assert.assertTrue(loginPage.isNoContactMessagePresent("Add new by clicking on Add in NavBar!"));
         }
 
         @Test
         public void registrationNegativeTest_duplicateUser(){
             User user = new User(generateEmail(10), "Password123!");
-            loginPage.typeRegistrationForm(user);
+            loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
             if(loginPage.isNoContactMessagePresent("Add new by clicking on Add in NavBar!")){
                 loginPage.logOut();
-                loginPage.typeRegistrationForm(user);
+                loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
                 Assert.assertTrue(loginPage.closeAlertReturnText()
                         .contains("User already exist"));
             }else {
@@ -46,9 +47,120 @@ import static utils.RandomUtils.*;
         @Test
         public void registrationNegativeTest_wrongPassword(){
             User user = new User(generateEmail(10), "Password123");
-            loginPage.typeRegistrationForm(user);
+            loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
             Assert.assertTrue(loginPage.closeAlertReturnText()
                     .contains("Password must contain at least one special symbol from [‘$’,’~’,’-‘,’_’]!"));
         }
+
+
+        @Test
+        public void registrationNegativeTestEmptyAll(){
+            User user = new User("", "");
+            loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
+            Assert.assertTrue(loginPage.closeAlertReturnText()
+                    .contains("Wrong email or password format"));
+
+        }
+
+        @Test
+        public void registrationNegativeTestEmptyEmail(){
+            User user = new User("", "Password_123");
+            loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
+            Assert.assertTrue(loginPage.closeAlertReturnText()
+                    .contains("Wrong email or password format"));
+
+        }
+
+        @Test
+        public void registrationNegativeTestEmptyPassword(){
+            User user = new User(generateEmail(10), "");
+            loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
+            Assert.assertTrue(loginPage.closeAlertReturnText()
+                    .contains("Wrong email or password format"));
+
+        }
+        @Test
+        public void registrationNegativeTestEmailWithoutAtSign(){
+            User user = new User("Rossagmail.com", "Password_123");
+            loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
+            Assert.assertTrue(loginPage.closeAlertReturnText()
+                    .contains("Wrong email or password format"));
+
+        }
+        @Test
+        public void registrationNegativeTestWithoutUppercaseLetter(){
+            User user = new User("Rossa@gmail.com", "password_123");
+            loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
+            Assert.assertTrue(loginPage.closeAlertReturnText()
+                    .contains("Wrong email or password format"));
+
+        }
+        @Test
+        public void registrationNegativeTestWithoutLowercaseLetter(){
+            User user = new User("Rossa@gmail.com", "PASSWORD_123");
+            loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
+            Assert.assertTrue(loginPage.closeAlertReturnText()
+                    .contains("Wrong email or password format"));
+
+        }
+        @Test
+        public void registrationNegativeTestWithoutDigit(){
+            User user = new User("Rossa@gmail.com", "Password_-_");
+            loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
+            Assert.assertTrue(loginPage.closeAlertReturnText()
+                    .contains("Wrong email or password format"));
+
+        }
+
+        @Test
+        public void registrationNegativeTestWithoutSymbol(){
+            User user = new User("Rossa@gmail.com", "Password123");
+            loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
+            Assert.assertTrue(loginPage.closeAlertReturnText()
+                    .contains("Wrong email or password format"));
+
+        }
+
+        @Test
+        public void registrationNegativeTestWithSpace(){
+            User user = new User("          ", "           ");
+            loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
+            Assert.assertTrue(loginPage.closeAlertReturnText()
+                    .contains("Wrong email or password format"));
+
+        }
+        @Test
+        public void registrationNegativeTestWithSpaceInEmail(){
+            User user = new User("          ", "Password_123");
+            loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
+            Assert.assertTrue(loginPage.closeAlertReturnText()
+                    .contains("Wrong email or password format"));
+
+        }
+
+        @Test
+        public void registrationNegativeTestWithSpaceInPassword(){
+            User user = new User(generateEmail(10), "           ");
+            loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
+            Assert.assertTrue(loginPage.closeAlertReturnText()
+                    .contains("Wrong email or password format"));
+
+        }
+
+        @Test
+        public void registrationNegativeTestWithSpaceInPasswordLombok(){
+            UserLombok user = UserLombok.builder()
+                    .username(generateEmail(10))
+                    .password("           ")
+                    .build();
+            loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
+            Assert.assertTrue(loginPage.closeAlertReturnText()
+                    .contains("Wrong email or password format"));
+
+
+
+        }
+
     }
+
 

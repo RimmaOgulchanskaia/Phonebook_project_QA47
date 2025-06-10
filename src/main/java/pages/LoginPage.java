@@ -72,9 +72,14 @@ public class LoginPage extends BasePage{
         return isTextInElementPresent(messageNoContacts, message);
     }
 
-    public void typeRegistrationForm(User user) {
-        inputEmail.sendKeys(user.getUsername());
-        inputPassword.sendKeys(user.getPassword());
+    //public void typeRegistrationForm(User user) {
+    //    inputEmail.sendKeys(user.getUsername());
+    //    inputPassword.sendKeys(user.getPassword());
+    //    btnRegForm.click();
+
+    public void typeRegistrationForm(String email, String password) {
+        inputEmail.sendKeys(email);
+        inputPassword.sendKeys(password);
         btnRegForm.click();
+        }
     }
-}
