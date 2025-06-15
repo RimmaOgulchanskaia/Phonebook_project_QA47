@@ -1,15 +1,21 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import utils.HeaderMenuItem;
 
 public abstract class BasePage {
     static WebDriver driver;
-    public static void setDriver(WebDriver wd){
+
+    public static void setDriver(WebDriver wd) {
         driver = wd;
     }
 
-    public void pause(int time){
+
+
+    public static void pause(int time) {
         try {
             Thread.sleep(time * 1000L);
         } catch (InterruptedException e) {
@@ -17,13 +23,30 @@ public abstract class BasePage {
         }
     }
 
-    public boolean isElementPresent(WebElement element){
+    public static <T extends BasePage> T clickButtonHeader(HeaderMenuItem headerMenuItem) {
+        pause(3);
+        WebElement element = driver.findElement(By.xpath(headerMenuItem.getLocator()));
+        element.click();
+        switch (headerMenuItem) {
+            case LOGIN -> {
+                return (T) new LoginPage(driver);
+            }
+            case ADD -> {
+                return (T) new AddPage(driver);
+            }
+            default -> throw new IllegalArgumentException("Invalid parameter headerMenuItem");
+        }
+    }
+
+    public boolean isElementPresent(WebElement element) {
         return element.isDisplayed();
     }
 
-    public boolean isTextInElementPresent(WebElement element, String text){
+    public boolean isTextInElementPresent(WebElement element, String text) {
         return element.getText().contains(text);
     }
+
+
 
 
 }
