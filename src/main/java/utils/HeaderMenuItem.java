@@ -9,6 +9,7 @@ public enum HeaderMenuItem {
     SIGNOUT("//a[text()='Sign Out']");
 
 
+
     private final String locator;
 
     HeaderMenuItem(String locator){

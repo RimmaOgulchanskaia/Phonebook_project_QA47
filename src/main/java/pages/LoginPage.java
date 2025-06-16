@@ -44,10 +44,11 @@ public class LoginPage extends BasePage{
         btnSignOutHeader.click();
     }
 
-    public void typeLoginForm(User user){
+    public ContactsPage typeLoginForm(User user) {
         inputEmail.sendKeys(user.getUsername());
         inputPassword.sendKeys(user.getPassword());
         btnLoginForm.click();
+        return new ContactsPage(driver);
     }
 
     public void closeAlert(){
