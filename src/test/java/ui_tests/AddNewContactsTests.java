@@ -3,6 +3,8 @@ package ui_tests;
 import dto.Contact;
 import dto.User;
 import manager.ApplicationManager;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -33,6 +35,7 @@ public class AddNewContactsTests extends ApplicationManager {
         addPage = clickButtonHeader(HeaderMenuItem.ADD);
     }
 
+
     @Test(invocationCount = 1)
     public void addNewContactPositiveTest() {
         Contact contact = Contact.builder()
@@ -46,13 +49,13 @@ public class AddNewContactsTests extends ApplicationManager {
         addPage.typeAddNewContactForm(contact);
         int sizeAfterAdd = contactsPage.getContactsListSize();
         System.out.println(sizeBeforeAdd + "X" + sizeAfterAdd);
-        Assert.assertEquals(sizeBeforeAdd +1, sizeAfterAdd);
+        Assert.assertEquals(sizeBeforeAdd + 1, sizeAfterAdd);
     }
 
     @Test
     public void addNewContactPositiveTest_validateContactNamePhone() {
         Contact contact = Contact.builder()
-                .name("Name-"+generateString(8))
+                .name("Name-" + generateString(8))
                 .lastName(generateString(10))
                 .phone(generatePhone(10))
                 .email(generateEmail(10))
@@ -62,4 +65,64 @@ public class AddNewContactsTests extends ApplicationManager {
         addPage.typeAddNewContactForm(contact);
         Assert.assertTrue(contactsPage.validateContactNamePhone(contact.getName(), contact.getPhone()));
     }
+
+    @Test
+    public void addNewContactNegativeTestEmptyName() {
+        Contact contact = Contact.builder()
+                .name("")
+                .lastName(generateString(10))
+                .phone(generatePhone(10))
+                .email(generateEmail(10))
+                .address("Haifa " + generateString(10))
+                .description("desc " + generateString(15))
+                .build();
+        addPage.typeAddNewContactForm(contact);
+        pause(2);
+        String currentUrl = addPage.getDriver().getCurrentUrl();
+        Assert.assertTrue(
+                currentUrl.contains("/add") || currentUrl.endsWith("/add"),
+                ""
+        );
+    }
+
+    @Test
+    public void addNewContactNegativeTestEmptyLastName() {
+        Contact contact = Contact.builder()
+                .name("Name-" + generateString(8))
+                .lastName("")
+                .phone(generatePhone(10))
+                .email(generateEmail(10))
+                .address("Haifa " + generateString(10))
+                .description("desc " + generateString(15))
+                .build();
+        addPage.typeAddNewContactForm(contact);
+        pause(2);
+        String currentUrl = addPage.getDriver().getCurrentUrl();
+        Assert.assertTrue(
+                currentUrl.contains("/add") || currentUrl.endsWith("/add"),
+                ""
+        );
+    }
+
+    @Test
+    public void addNewContactNegativeTestEmptyPhone() {
+        Contact contact = Contact.builder()
+                .name("Name-" + generateString(8))
+                .lastName(generateString(10))
+                .phone(generatePhone(0))
+                .email(generateEmail(10))
+                .address("Haifa " + generateString(10))
+                .description("desc " + generateString(15))
+                .build();
+        addPage.typeAddNewContactForm(contact);
+        pause(2);
+        Alert alert = getDriver().switchTo().alert();
+        String alertText = alert.getText();
+        Assert.assertTrue(alertText.contains(" Phone not valid: Phone number must contain only digits! And length min 10, max 15!"), "");
+        alert.accept();
+
+
+    }
+
+
 }

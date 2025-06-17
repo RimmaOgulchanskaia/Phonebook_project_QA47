@@ -1,6 +1,7 @@
 package pages;
 
 import dto.Contact;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -37,6 +38,24 @@ public class AddPage extends BasePage {
         inputDescription.sendKeys(contact.getDescription());
         btnSave.click();
     }
+//    public boolean isSaveButtonEnabled() {
+//        return driver.findElement(By.xpath("//b/..")).isEnabled();
+//    }
+    public boolean isSaveButtonEnabled() {
+    WebElement btn = driver.findElement(By.xpath("//b/.."));
+    try {
+        btn.click();
+        return true;
+    } catch (Exception e) {
+        return false;
+    }
+}
+    public WebDriver getDriver() {
+        return this.driver;
+    }
+
+
+
 
 
 }
