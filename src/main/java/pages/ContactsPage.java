@@ -35,4 +35,15 @@ public class ContactsPage extends BasePage{
         }
         return false;
     }
+
+    public String getPhoneFromList() {
+        if (!contactsList.isEmpty()) {
+            System.out.println(contactsList.get(0).getText());
+            //u2l4s\n
+            //0569356856  split("\n") --> [u2l4s]  [0569356856]  --> [1]
+            return contactsList.get(0).getText().split("\n")[1];
+        }
+        System.out.println("contact list is empty");
+        return null;
+    }
 }

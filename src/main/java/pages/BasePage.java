@@ -56,6 +56,16 @@ public abstract class BasePage {
             default -> throw new IllegalArgumentException("Invalid parameter headerMenuItem");
         }
     }
+    public boolean validateURL(String str){
+        return new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.urlContains(str));}
+
+    public boolean isUrlNotContains(String str){
+        pause(5);
+        return new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.not(ExpectedConditions.urlContains(str)));}
+
+
 
     public boolean isElementPresent(WebElement element) {
         return element.isDisplayed();
@@ -64,6 +74,8 @@ public abstract class BasePage {
     public boolean isTextInElementPresent(WebElement element, String text) {
         return element.getText().contains(text);
     }
+
+
 
 
 }
