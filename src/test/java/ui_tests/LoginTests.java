@@ -5,18 +5,22 @@ import manager.ApplicationManager;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.ContactsPage;
 import pages.HomePage;
 import pages.LoginPage;
+import utils.TestNGListener;
 
 import java.lang.reflect.Method;
+
+@Listeners(TestNGListener.class)
 
 public class LoginTests extends ApplicationManager {
 
     @Test
     public void loginPositiveTest(Method method){
-        logger.info("Start method " + method.getName());
+        //logger.info("Start method " + method.getName());
         User user = new User("qa_mail@mail.com", "Qwerty123!");
         logger.info("test data -> " + user.toString());
         HomePage homePage = new HomePage(getDriver());
