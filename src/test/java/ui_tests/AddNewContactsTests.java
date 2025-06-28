@@ -1,10 +1,10 @@
 package ui_tests;
 
+import data_provider.ContactDP;
 import dto.Contact;
 import dto.User;
 import manager.ApplicationManager;
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
@@ -57,6 +57,19 @@ public class AddNewContactsTests extends ApplicationManager {
         int sizeAfterAdd = contactsPage.getContactsListSize();
         System.out.println(sizeBeforeAdd + "X" + sizeAfterAdd);
         Assert.assertEquals(sizeBeforeAdd + 1, sizeAfterAdd);
+    }
+
+    @Test(dataProvider = "addNewContactDP", dataProviderClass = ContactDP.class)
+    public void addNewContactPositiveTestDP(Contact contact) {
+        addPage.typeAddNewContactForm(contact);
+
+    }
+
+    @Test(dataProvider = "addNewContactFile", dataProviderClass = ContactDP.class)
+    public void addNewContactPositiveTestFile(Contact contact) {
+        logger.info("test data->" + contact);
+        addPage.typeAddNewContactForm(contact);
+
     }
 
     @Test
