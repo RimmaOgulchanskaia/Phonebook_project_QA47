@@ -18,6 +18,7 @@ import utils.TestNGListener;
 
 import static pages.BasePage.*;
 import static utils.RandomUtils.*;
+import static utils.PropertiesReader.*;
 
 @Listeners(TestNGListener.class)
 
@@ -32,7 +33,8 @@ public class AddNewContactsTests extends ApplicationManager {
 
     @BeforeMethod
     public void login() {
-        User user = new User("qa_mail@mail.com", "Qwerty123!");
+        //User user = new User("qa_mail@mail.com", "Qwerty123!");
+        User user = new User(getProperty("login.properties", "password"));
         homePage = new HomePage(getDriver());
         loginPage = clickButtonHeader(HeaderMenuItem.LOGIN);
         loginPage.typeLoginForm(user);
