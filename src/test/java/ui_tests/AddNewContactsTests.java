@@ -34,7 +34,7 @@ public class AddNewContactsTests extends ApplicationManager {
     @BeforeMethod
     public void login() {
         //User user = new User("qa_mail@mail.com", "Qwerty123!");
-        User user = new User(getProperty("login.properties", "password"));
+        User user = new User(getProperty("login.properties", "email"), getProperty("login.properties", "password"));
         homePage = new HomePage(getDriver());
         loginPage = clickButtonHeader(HeaderMenuItem.LOGIN);
         loginPage.typeLoginForm(user);
