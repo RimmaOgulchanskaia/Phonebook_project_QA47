@@ -61,20 +61,20 @@ public class AddNewContactsTests extends ApplicationManager {
         Assert.assertEquals(sizeBeforeAdd + 1, sizeAfterAdd);
     }
 
-    @Test(dataProvider = "addNewContactDP", dataProviderClass = ContactDP.class)
+    @Test(dataProvider = "addNewContactDP", dataProviderClass = ContactDP.class, groups = "smoke")
     public void addNewContactPositiveTestDP(Contact contact) {
         addPage.typeAddNewContactForm(contact);
 
     }
 
-    @Test(dataProvider = "addNewContactFile", dataProviderClass = ContactDP.class)
+    @Test(dataProvider = "addNewContactFile", dataProviderClass = ContactDP.class, groups = "smoke")
     public void addNewContactPositiveTestFile(Contact contact) {
         logger.info("test data->" + contact);
         addPage.typeAddNewContactForm(contact);
 
     }
 
-    @Test
+    @Test(groups = "smoke")
     public void addNewContactPositiveTestValidateContactNamePhone() {
         Contact contact = Contact.builder()
                 .name("Name-" + generateString(8))
@@ -88,7 +88,7 @@ public class AddNewContactsTests extends ApplicationManager {
         Assert.assertTrue(contactsPage.validateContactNamePhone(contact.getName(), contact.getPhone()));
     }
 
-    @Test
+    @Test(groups = "smoke")
     public void addNewContactNegativeTestEmptyName() {
         Contact contact = Contact.builder()
                 .name("")
@@ -121,7 +121,7 @@ public class AddNewContactsTests extends ApplicationManager {
 
 
 
-    @Test
+    @Test(groups = "smoke")
     public void addNewContactNegativeTestEmptyLastName() {
         Contact contact = Contact.builder()
                 .name("Name-" + generateString(8))
@@ -140,7 +140,7 @@ public class AddNewContactsTests extends ApplicationManager {
         );
     }
 
-    @Test
+    @Test(groups = "smoke")
     public void addNewContactNegativeTestEmptyPhone() {
         Contact contact = Contact.builder()
                 .name("Name-" + generateString(8))
@@ -160,7 +160,7 @@ public class AddNewContactsTests extends ApplicationManager {
 
     }
 
-    @Test
+    @Test(groups = "smoke")
     public void addNewContactNegativeTestEmptyPhone2() {
         Contact contact = Contact.builder()
                 .name("Name-" + generateString(8))
@@ -176,7 +176,7 @@ public class AddNewContactsTests extends ApplicationManager {
         Assert.assertTrue(addPage.closeAlertReturnText().contains(" Phone not valid: Phone number must"));
     }
 
-    @Test
+    @Test(groups = "smoke")
     public void addNewContactNegativeTestEmptyEmail() {
         Contact contact = Contact.builder()
                 .name("Name-" + generateString(8))
@@ -196,7 +196,7 @@ public class AddNewContactsTests extends ApplicationManager {
     }
 
 
-    @Test(invocationCount = 1)
+    @Test(invocationCount = 1, groups = "smoke")
     public void addNewContactNegativeTest_existPhone() {
         Contact contact = Contact.builder()
                 .name(generateString(10))
@@ -229,7 +229,7 @@ public class AddNewContactsTests extends ApplicationManager {
 //
 //    }
 
-    @Test
+    @Test(groups = "smoke")
     public void addNewContactNegativeTest_InvalidEmail(){
         Contact contact = Contact.builder()
                 .name(generateString(8))

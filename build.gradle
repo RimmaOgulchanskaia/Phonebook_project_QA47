@@ -42,3 +42,9 @@ task smoke_tests_api(type: Test){
         suites 'src/test/resources/smoke_tests_api.xml'
     }
 }
+
+task smoke_tests_contacts_ui(type: Test){
+    useTestNG(){
+        suites 'src/test/resources/smoke_tests_contacts_ui.xml'
+    }
+}

@@ -23,7 +23,7 @@ public class AddNewContactTestWithApi extends ApplicationManager {
     ContactsPage contactsPage;
     AddPage addPage;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void login() {
         User user = new User(getProperty("login.properties", "email"),
                 getProperty("login.properties", "password"));
@@ -34,7 +34,7 @@ public class AddNewContactTestWithApi extends ApplicationManager {
         addPage = clickButtonHeader(HeaderMenuItem.ADD);
     }
 
-    @Test()
+    @Test(groups = "smoke")
     public void addNewContactPositiveTest() {
         Contact contact = Contact.builder()
                 .name("123"+generateString(5))
