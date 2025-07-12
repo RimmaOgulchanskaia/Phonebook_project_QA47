@@ -20,7 +20,7 @@ import static utils.RandomUtils.*;
     public class RegistrationTests extends ApplicationManager {
         HomePage homePage;
         LoginPage loginPage;
-        @BeforeMethod
+        @BeforeMethod(alwaysRun = true)
         public void goToRegistrationPage(){
             homePage = new HomePage(getDriver());
             homePage.clickBtnLoginHeader();
@@ -28,14 +28,14 @@ import static utils.RandomUtils.*;
         }
         //      BeforeMethod(App)   BeforeMethod(Reg)  Test  AfterMethod(App)
 
-        @Test(retryAnalyzer = RetryAnalyzer.class)
+        @Test(groups = "smoke")
         public void registrationPositiveTest(){
             User user = new User(generateEmail(10), "Password123!");
             loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
             Assert.assertTrue(loginPage.isNoContactMessagePresent("Add new by clicking on Add in NavBar!"));
         }
 
-        @Test
+        @Test(groups = "smoke")
         public void registrationNegativeTest_duplicateUser(){
             User user = new User(generateEmail(10), "Password123!");
             loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());
@@ -58,7 +58,7 @@ import static utils.RandomUtils.*;
         }
 
 
-        @Test
+        @Test(groups = "smoke")
         public void registrationNegativeTestEmptyAll(){
             User user = new User("", "");
             loginPage.typeRegistrationForm(user.getUsername(),user.getPassword());

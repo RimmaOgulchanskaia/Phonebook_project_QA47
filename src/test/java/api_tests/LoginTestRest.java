@@ -20,7 +20,7 @@ public class LoginTestRest extends AuthenticationController implements BaseAPI {
 
     SoftAssert softAssert = new SoftAssert();
 
-    @Test
+    @Test(groups = "smoke")
     public void loginPositiveTest_200() {
         User user = new User(getProperty("login.properties", "email"), getProperty("login.properties", "password"));
         Response response = requestRegLogin(user, LOGIN_URL);

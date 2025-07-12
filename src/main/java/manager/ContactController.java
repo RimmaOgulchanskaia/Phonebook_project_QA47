@@ -51,6 +51,33 @@ public class ContactController implements BaseAPI {
                 ;
     }
 
+    protected Response updateContactRequest(Contact contact, TokenDto tokenDto){
+        return given()
+                .log().all()
+                .body(contact)
+                .baseUri(getProperty("login.properties", "baseUri"))
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .header("Authorization", tokenDto.getToken())
+                .put(ADD_NEW_CONTACT_URL)
+                .thenReturn()
+                ;
+
+
+    }
+    protected Response deleteContact(Contact contact, TokenDto tokenDto){
+        return given()
+                .log().all()
+                .baseUri(getProperty("login.properties", "baseUri"))
+                .accept(ContentType.JSON)
+                .header("Authorization", tokenDto.getToken())
+                .delete(ADD_NEW_CONTACT_URL+"/"+contact.getId())
+                .thenReturn()
+                ;
+    }
+
+
+
 
 
 

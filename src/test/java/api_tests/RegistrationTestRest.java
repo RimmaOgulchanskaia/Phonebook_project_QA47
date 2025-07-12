@@ -11,7 +11,7 @@ import static utils.RandomUtils.*;
 
 public class RegistrationTestRest extends AuthenticationController implements BaseAPI {
 
-    @Test
+    @Test(groups = "smoke")
     public void registrationPositiveTest_200(){
         User user = new User(generateEmail(10), "Password12345!");
         Response response= requestRegLogin(user, REGISTRATION_URL);

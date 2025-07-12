@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
 
 public class LoginTests extends ApplicationManager {
 
-    @Test
+    @Test(groups = "smoke")
     public void loginPositiveTest(Method method){
         //logger.info("Start method " + method.getName());
         User user = new User("qa_mail@mail.com", "Qwerty123!");
@@ -32,7 +32,7 @@ public class LoginTests extends ApplicationManager {
         //System.out.println("after assert");
     }
 
-    @Test
+    @Test (groups = "smoke")
     public void loginNegativeTest_wrongPassword(){
         User user = new User("qa_mail@mail.com", "Qwerty123!ZZZ");
         HomePage homePage = new HomePage(getDriver());
