@@ -37,6 +37,7 @@ public class UpdateContactTests extends ContactController {
 
     }}
 
+
     @Test(groups = "smoke")
     public void  updateContactPositiveTest(){
         System.out.println(contact.toString());

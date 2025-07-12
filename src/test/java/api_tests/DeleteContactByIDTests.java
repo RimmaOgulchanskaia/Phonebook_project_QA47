@@ -46,6 +46,7 @@ public class DeleteContactByIDTests extends ContactController {
                 .body(matchesJsonSchemaInClasspath("ResponseMessageDtoShema.json"));
     }
 
+
     @Test
     public void deleteContactByIDNegativeTest_InvalidToken(){
         TokenDto tokenDto1= TokenDto.builder().token("invalid").build();
